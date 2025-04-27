@@ -15,7 +15,7 @@ presplash.filename = %(source.dir)s/assets/presplash.png
 android.permissions = INTERNET,ACCESS_NETWORK_STATE,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 
 # 程序依赖
-requirements = python3,kivy==2.2.1,requests==2.31.0,pyyaml==6.0.1,pillow==9.5.0,certifi==2023.7.22,charset-normalizer==3.3.2,idna==3.6,urllib3==2.0.7
+requirements = python3,kivy==2.2.1,requests==2.31.0,pyyaml==6.0.1,pillow==9.5.0,certifi==2023.7.22,charset-normalizer==3.3.2,idna==3.6,urllib3==2.0.7,kivy_deps.sdl2,kivy_deps.glew
 
 # 应用界面和行为
 orientation = portrait
