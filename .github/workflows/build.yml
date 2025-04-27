@@ -6,17 +6,25 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONLEGACYWINDOWSSTDIO: utf-8
+  PYTHONUNBUFFERED: 1
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
+        cache: 'pip'
 
     - name: Check directory structure
       run: |
@@ -26,12 +34,15 @@ jobs:
         ls -la damai_ticket || echo "目录不存在"
         echo "assets目录："
         ls -la assets || echo "目录不存在"
+        echo "检查main.py："
+        cat main.py
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install buildozer
+        pip install buildozer==1.5.0
         pip install cython==0.29.33
+        pip install kivy
         pip install pillow
         pip install requests
         pip install pyyaml
@@ -85,37 +96,77 @@ jobs:
           patch \
           pkg-config
 
-    - name: Create any missing directories
+    - name: Create resources
       run: |
+        echo "创建必要的资源文件..."
         mkdir -p assets
         mkdir -p damai_ticket
-        python create_assets.py || echo "Failed to create assets, but continuing..."
+        echo 'Creating favicon...'
+        touch assets/favicon.png
+        echo 'Creating icon...'
+        python -c "
+        from PIL import Image, ImageDraw
+        img = Image.new('RGBA', (512, 512), color=(51, 153, 255, 255))
+        d = ImageDraw.Draw(img)
+        d.ellipse((100, 100, 412, 412), fill=(255, 255, 255, 255))
+        d.text((200, 200), '票', fill=(51, 153, 255, 255), font_size=150)
+        img.save('assets/icon.png')
+        img.save('assets/presplash.png')
+        "
 
     - name: Check buildozer.spec
       run: |
         echo "Buildozer.spec内容："
         cat buildozer.spec
-
-    - name: Build APK
+        
+    - name: Check app files
       run: |
-        buildozer android debug
+        echo "检查main.py文件..."
+        cat main.py | head -n 20
+        
+        echo "检查是否存在其他必要文件..."
+        if [ -f "damai_ticket/__init__.py" ]; then
+          echo "damai_ticket/__init__.py 存在"
+          cat damai_ticket/__init__.py
+        else
+          echo "damai_ticket/__init__.py 不存在，创建它..."
+          mkdir -p damai_ticket
+          echo '"""大麦抢票助手 - Android版"""' > damai_ticket/__init__.py
+          echo "__version__ = '1.0.0'" >> damai_ticket/__init__.py
+          echo "__author__ = 'DamaiTicket'" >> damai_ticket/__init__.py
+        fi
+
+    - name: Build APK with verbose output
+      run: |
+        export PATH=$PATH:~/.local/bin/
+        export TERM=xterm
+        buildozer -v android debug | tee buildozer_log.txt
 
     - name: Check build logs
       if: always()
       run: |
         echo "构建日志："
-        cat .buildozer/logs/buildozer-*.log || echo "No buildozer logs found"
+        if [ -d ".buildozer/logs" ]; then
+          ls -la .buildozer/logs/
+          cat .buildozer/logs/buildozer-*.log || echo "No buildozer logs found"
+        else
+          echo "没有.buildozer/logs目录"
+          cat buildozer_log.txt
+        fi
 
     - name: Upload APK
       if: success()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: app-debug
+        name: damaiticket-apk
         path: bin/*.apk
+        if-no-files-found: error
 
     - name: Upload build logs
       if: always()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: build-logs
-        path: .buildozer/logs/ 
+        path: |
+          .buildozer/logs/
+          buildozer_log.txt 

@@ -5,9 +5,9 @@ package.name = damaiticket
 package.domain = com.damai
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,json,yaml
-source.include_patterns = assets/*,damai_ticket/*,*.py
-source.exclude_dirs = .buildozer,bin,WIT-SecondHand,mnt,venv,.venv,upload_files,risk,damai,__pycache__
-source.exclude_patterns = *.pyc,*.pyo,*.swp,*.swo
+source.include_patterns = assets/*,damai_ticket/*,main.py,README*
+source.exclude_dirs = .buildozer,bin,WIT-SecondHand,mnt,venv,.venv,upload_files,risk,__pycache__
+source.exclude_patterns = *.pyc,*.pyo,*.swp,*.swo,*.git*
 version = 1.0.0
 
 # 应用图标和启动画面
@@ -18,7 +18,7 @@ presplash.filename = %(source.dir)s/assets/presplash.png
 android.permissions = INTERNET,ACCESS_NETWORK_STATE,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 
 # 程序依赖
-requirements = python3,kivy==2.2.1,requests==2.31.0,pyyaml==6.0.1,pillow==9.5.0,certifi==2023.7.22,charset-normalizer==3.3.2,idna==3.6,urllib3==2.0.7
+requirements = python3,kivy==2.2.1,requests==2.31.0,pyyaml==6.0.1,pillow==9.5.0,certifi,charset-normalizer,idna,urllib3
 
 # 应用界面和行为
 orientation = portrait
@@ -39,8 +39,7 @@ android.gradle_dependencies = org.chromium:chromium-webview:83.0.4103.106
 p4a.bootstrap = sdl2
 
 # 主要入口点
-# 使用main.py作为入口点
-android.entrypoint = main
+android.entrypoint = main:DamaiTicketApp
 
 # 提示和帮助文本
 p4a.hook = 
