@@ -18,11 +18,23 @@ jobs:
       with:
         python-version: '3.9'
 
+    - name: Check directory structure
+      run: |
+        echo "项目目录结构："
+        ls -la
+        echo "damai_ticket目录："
+        ls -la damai_ticket || echo "目录不存在"
+        echo "assets目录："
+        ls -la assets || echo "目录不存在"
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install buildozer
         pip install cython==0.29.33
+        pip install pillow
+        pip install requests
+        pip install pyyaml
 
     - name: Install system dependencies
       run: |
@@ -65,14 +77,45 @@ jobs:
           libjpeg-dev \
           libtiff-dev \
           libfreetype6-dev \
-          libwebp-dev
+          libwebp-dev \
+          autoconf \
+          automake \
+          cmake \
+          gettext \
+          patch \
+          pkg-config
+
+    - name: Create any missing directories
+      run: |
+        mkdir -p assets
+        mkdir -p damai_ticket
+        python create_assets.py || echo "Failed to create assets, but continuing..."
+
+    - name: Check buildozer.spec
+      run: |
+        echo "Buildozer.spec内容："
+        cat buildozer.spec
 
     - name: Build APK
       run: |
         buildozer android debug
 
+    - name: Check build logs
+      if: always()
+      run: |
+        echo "构建日志："
+        cat .buildozer/logs/buildozer-*.log || echo "No buildozer logs found"
+
     - name: Upload APK
+      if: success()
       uses: actions/upload-artifact@v2
       with:
         name: app-debug
-        path: bin/*.apk 
+        path: bin/*.apk
+
+    - name: Upload build logs
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-logs
+        path: .buildozer/logs/ 
