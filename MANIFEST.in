@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include requirements.txt
+include buildozer.spec
+include config.example.json
+include *.py
+recursive-include assets *
+recursive-include damai_ticket *.py
+recursive-include .github/workflows *.yml 

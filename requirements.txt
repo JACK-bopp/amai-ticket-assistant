@@ -1,0 +1,30 @@
+# 大麦网抢票脚本依赖包
+
+# 基础库
+requests==2.31.0
+pyyaml==6.0.1
+
+# 浏览器自动化
+selenium==4.18.1
+webdriver-manager>=3.8.5
+
+# 并发处理
+threading
+
+# 日志和工具
+logging
+random
+time
+datetime
+argparse
+
+# 新增依赖
+certifi==2023.7.22
+charset-normalizer==3.3.2
+docutils==0.20.1
+idna==3.6
+Kivy==2.2.1
+Kivy-Garden==0.1.5
+Pillow==9.5.0
+Pygments==2.17.2
+urllib3==2.0.7

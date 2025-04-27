@@ -1,0 +1,21 @@
+{
+    "account": {
+        "username": "your_phone_number",
+        "password": "your_password"
+    },
+    "buyer": {
+        "name": "购票人姓名"
+    },
+    "show": {
+        "id": "演出ID",
+        "price": "票价",
+        "number": "购票数量",
+        "date": "演出日期",
+        "session": "场次"
+    },
+    "settings": {
+        "refresh_interval": 0.5,
+        "max_retry_times": 5,
+        "auto_select_seat": true
+    }
+} 
