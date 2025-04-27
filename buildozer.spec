@@ -36,7 +36,8 @@ android.gradle_dependencies = org.chromium:chromium-webview:83.0.4103.106
 p4a.bootstrap = sdl2
 
 # 主要入口点
-android.entrypoint = damai_app:DamaiApp
+# 使用main.py作为入口点
+android.entrypoint = main
 
 # 提示和帮助文本
 p4a.hook = 
