@@ -1,4 +1,8 @@
-# 大麦网抢票模块
+"""
+大麦网API和浏览器自动化模块
 
-__version__ = '1.0.0'
-__author__ = 'Trae AI'
+提供大麦网API交互和浏览器自动化功能
+"""
+
+__version__ = '1.1.0'
+__author__ = 'DamaiTicket'

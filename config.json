@@ -1,0 +1,15 @@
+{
+  "account": {
+    "username": "13800138000",
+    "password": "your_password_here"
+  },
+  "target": {
+    "show_id": "721889827293",
+    "start_time": "2024-05-10 12:00:00"
+  },
+  "buyer": [
+    {
+      "name": "张三"
+    }
+  ]
+}

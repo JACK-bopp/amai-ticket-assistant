@@ -32,10 +32,12 @@ jobs:
         ls -la
         echo "damai_ticket目录："
         ls -la damai_ticket || echo "目录不存在"
+        echo "damai目录："
+        ls -la damai || echo "目录不存在"
         echo "assets目录："
         ls -la assets || echo "目录不存在"
-        echo "检查main.py："
-        cat main.py
+        echo "检查browser.py："
+        cat damai/browser.py || echo "browser.py不存在"
 
     - name: Install dependencies
       run: |
@@ -46,6 +48,8 @@ jobs:
         pip install pillow
         pip install requests
         pip install pyyaml
+        pip install selenium==4.18.1
+        pip install webdriver-manager==4.0.1
 
     - name: Install system dependencies
       run: |
@@ -101,6 +105,7 @@ jobs:
         echo "创建必要的资源文件..."
         mkdir -p assets
         mkdir -p damai_ticket
+        mkdir -p damai
         echo 'Creating favicon...'
         touch assets/favicon.png
         echo 'Creating icon...'
@@ -132,8 +137,20 @@ jobs:
           echo "damai_ticket/__init__.py 不存在，创建它..."
           mkdir -p damai_ticket
           echo '"""大麦抢票助手 - Android版"""' > damai_ticket/__init__.py
-          echo "__version__ = '1.0.0'" >> damai_ticket/__init__.py
+          echo "__version__ = '1.1.0'" >> damai_ticket/__init__.py
           echo "__author__ = 'DamaiTicket'" >> damai_ticket/__init__.py
+        fi
+        
+        if [ ! -f "damai/__init__.py" ]; then
+          echo "创建damai/__init__.py文件..."
+          mkdir -p damai
+          echo '"""大麦网API和浏览器自动化模块"""' > damai/__init__.py
+          echo "__version__ = '1.1.0'" >> damai/__init__.py
+        fi
+        
+        if [ ! -f "damai/browser.py" ]; then
+          echo "browser.py不存在，需要从附加文件复制"
+          cat damai/browser.py || echo "无法访问browser.py"
         fi
 
     - name: Build APK with verbose output

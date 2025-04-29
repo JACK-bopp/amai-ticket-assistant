@@ -5,10 +5,10 @@ package.name = damaiticket
 package.domain = com.damai
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,json,yaml
-source.include_patterns = assets/*,damai_ticket/*,main.py,README*
+source.include_patterns = assets/*,damai_ticket/*,damai/*,examples/*,docs/*,main.py,README*
 source.exclude_dirs = .buildozer,bin,WIT-SecondHand,mnt,venv,.venv,upload_files,risk,__pycache__
 source.exclude_patterns = *.pyc,*.pyo,*.swp,*.swo,*.git*
-version = 1.0.0
+version = 1.1.0
 
 # 应用图标和启动画面
 icon.filename = %(source.dir)s/assets/icon.png
@@ -18,7 +18,7 @@ presplash.filename = %(source.dir)s/assets/presplash.png
 android.permissions = INTERNET,ACCESS_NETWORK_STATE,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 
 # 程序依赖
-requirements = python3,kivy==2.2.1,requests==2.31.0,pyyaml==6.0.1,pillow==9.5.0,certifi,charset-normalizer,idna,urllib3
+requirements = python3,kivy==2.2.1,requests==2.31.0,pyyaml==6.0.1,pillow==9.5.0,selenium==4.18.1,webdriver-manager==4.0.1,certifi,charset-normalizer,idna,urllib3
 
 # 应用界面和行为
 orientation = portrait

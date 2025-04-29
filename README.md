@@ -38,14 +38,65 @@
 3. 本工具仅供学习交流使用，请勿用于商业用途
 4. 过于频繁的刷新可能会导致账号被限制，请合理设置刷新间隔
 
+## 技术架构
+
+本项目主要由以下几个核心组件构成：
+
+### 1. 前端界面
+
+使用Kivy框架开发的跨平台界面，支持Android、iOS和桌面系统。
+
+### 2. 抢票核心
+
+- `damai/api.py` - 大麦网API交互核心
+- `damai/mobile_api.py` - 移动端API接口
+- `damai/browser.py` - 浏览器自动化模块，支持Web和移动端
+
+### 3. 自动化模块
+
+`browser.py` 模块提供了统一的浏览器自动化功能，包括：
+- 浏览器初始化和配置
+- 元素查找和等待
+- 安全点击和表单操作
+- 反爬虫对策
+- 移动设备模拟
+
+完整文档请参考 [浏览器模块文档](docs/browser_usage.md)。
+
 ## 开发说明
 
-本项目使用GitHub Actions自动构建APK。如果您想自行构建：
+### APK构建
+
+本项目提供多种构建APK的方式：
+
+#### 1. 使用GitHub Actions自动构建
 
 1. Fork本仓库
 2. 修改代码
 3. Push到main分支会自动触发构建
 4. 构建完成后可在Actions页面下载APK
+
+#### 2. Linux环境下本地构建
+
+1. 确保已安装Python 3.7+和必要的系统依赖
+2. 在项目根目录执行：
+   ```bash
+   chmod +x build_apk.sh
+   ./build_apk.sh
+   ```
+3. 构建完成后APK位于`bin`目录下
+
+#### 3. Windows系统下通过WSL构建
+
+1. 确保已安装WSL (Windows Subsystem for Linux)
+2. 在项目根目录双击运行`build_apk_wsl.bat`
+3. 按照提示操作
+4. 构建完成后APK位于`bin`目录下
+
+### 示例
+
+项目包含了一些示例代码，展示如何使用核心功能：
+- `examples/browser_example.py` - 浏览器自动化示例
 
 ## 免责声明
 
